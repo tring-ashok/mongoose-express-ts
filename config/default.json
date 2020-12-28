@@ -1,5 +1,10 @@
 {
-  "mongoURI": "mongodb+srv://root:1234@devconnector-ejkgk.mongodb.net/test?retryWrites=true",
+  "mongoURI": "mongodb://localhost:27017/scion?retryWrites=true",
   "jwtSecret": "jwtSecretToken",
-  "jwtExpiration": 360000
+  "jwtExpiration": "1h",
+  "ROLES": {
+    "ADMIN": "ADMIN",
+    "USER": "USER",
+    "SUPER_ADMIN": "SUPER_ADMIN"
+  }
 }

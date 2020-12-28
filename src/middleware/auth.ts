@@ -9,6 +9,7 @@ import Request from "../types/Request";
 export default function(req: Request, res: Response, next: NextFunction) {
   // Get token from header
   const token = req.header("x-auth-token");
+  let payload: Payload | any;
 
   // Check if no token
   if (!token) {
@@ -18,12 +19,18 @@ export default function(req: Request, res: Response, next: NextFunction) {
   }
   // Verify token
   try {
-    const payload: Payload | any = jwt.verify(token, config.get("jwtSecret"));
+    payload = jwt.verify(token, config.get("jwtSecret"));
     req.userId = payload.userId;
-    next();
   } catch (err) {
     res
       .status(HttpStatusCodes.UNAUTHORIZED)
       .json({ msg: "Token is not valid" });
   }
+
+  const { userId, role } = payload;
+  const newToken = jwt.sign({ userId, role }, config.get("jwtSecret"), {
+    expiresIn: config.get("jwtExpiration")
+  });
+  res.setHeader("x-auth-token", newToken);
+  next();
 }

@@ -5,6 +5,7 @@ import connectDB from "../config/database";
 import auth from "./routes/api/auth";
 import user from "./routes/api/user";
 import profile from "./routes/api/profile";
+import account from "./routes/api/account";
 
 const app = express();
 
@@ -26,6 +27,8 @@ app.get("/", (_req, res) => {
 app.use("/api/auth", auth);
 app.use("/api/user", user);
 app.use("/api/profile", profile);
+app.use("/api/account", account);
+
 
 const port = app.get("port");
 const server = app.listen(port, () =>

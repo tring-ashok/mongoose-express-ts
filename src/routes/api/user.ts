@@ -31,8 +31,8 @@ router.post(
         .status(HttpStatusCodes.BAD_REQUEST)
         .json({ errors: errors.array() });
     }
-
-    const { email, password } = req.body;
+``
+    const { email, password} = req.body;
     try {
       let user: IUser = await User.findOne({ email });
 
@@ -61,7 +61,8 @@ router.post(
       const userFields = {
         email,
         password: hashed,
-        avatar
+        avatar,
+        role: config.get("ROLES.USER")
       };
 
       user = new User(userFields);
@@ -69,7 +70,8 @@ router.post(
       await user.save();
 
       const payload: Payload = {
-        userId: user.id
+        userId: user.id,
+        role: user.role
       };
 
       jwt.sign(
